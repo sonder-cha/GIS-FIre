@@ -41,10 +41,15 @@ namespace GIS_FIre
             this.添加数据TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.退出XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.编辑EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.风险评估ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.火灾预警ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.可燃性分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.影响范围ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.火灾模拟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.着火点设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.火灾扩散ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.应急救援ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -54,11 +59,9 @@ namespace GIS_FIre
             this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.编辑EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.火灾模拟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.着火点设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.火灾扩散ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.应急救援ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.应急预案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.逃生路线规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.消防救援规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -102,7 +105,8 @@ namespace GIS_FIre
             this.文件FToolStripMenuItem,
             this.编辑EToolStripMenuItem,
             this.风险评估ToolStripMenuItem,
-            this.火灾模拟ToolStripMenuItem});
+            this.火灾模拟ToolStripMenuItem,
+            this.应急预案ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1121, 28);
@@ -174,6 +178,13 @@ namespace GIS_FIre
             this.退出XToolStripMenuItem.Text = "退出(X)...";
             this.退出XToolStripMenuItem.Click += new System.EventHandler(this.退出XToolStripMenuItem_Click);
             // 
+            // 编辑EToolStripMenuItem
+            // 
+            this.编辑EToolStripMenuItem.Name = "编辑EToolStripMenuItem";
+            this.编辑EToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.编辑EToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.编辑EToolStripMenuItem.Text = "编辑(E)";
+            // 
             // 风险评估ToolStripMenuItem
             // 
             this.风险评估ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -187,20 +198,48 @@ namespace GIS_FIre
             // 火灾预警ToolStripMenuItem
             // 
             this.火灾预警ToolStripMenuItem.Name = "火灾预警ToolStripMenuItem";
-            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.火灾预警ToolStripMenuItem.Text = "火灾预警";
             // 
             // 可燃性分析ToolStripMenuItem
             // 
             this.可燃性分析ToolStripMenuItem.Name = "可燃性分析ToolStripMenuItem";
-            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.可燃性分析ToolStripMenuItem.Text = "可燃性分析";
             // 
             // 影响范围ToolStripMenuItem
             // 
             this.影响范围ToolStripMenuItem.Name = "影响范围ToolStripMenuItem";
-            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.影响范围ToolStripMenuItem.Text = "影响范围";
+            // 
+            // 火灾模拟ToolStripMenuItem
+            // 
+            this.火灾模拟ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.着火点设置ToolStripMenuItem,
+            this.火灾扩散ToolStripMenuItem,
+            this.应急救援ToolStripMenuItem});
+            this.火灾模拟ToolStripMenuItem.Name = "火灾模拟ToolStripMenuItem";
+            this.火灾模拟ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.火灾模拟ToolStripMenuItem.Text = "火灾模拟";
+            // 
+            // 着火点设置ToolStripMenuItem
+            // 
+            this.着火点设置ToolStripMenuItem.Name = "着火点设置ToolStripMenuItem";
+            this.着火点设置ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.着火点设置ToolStripMenuItem.Text = "着火点设置";
+            // 
+            // 火灾扩散ToolStripMenuItem
+            // 
+            this.火灾扩散ToolStripMenuItem.Name = "火灾扩散ToolStripMenuItem";
+            this.火灾扩散ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.火灾扩散ToolStripMenuItem.Text = "火灾扩散";
+            // 
+            // 应急救援ToolStripMenuItem
+            // 
+            this.应急救援ToolStripMenuItem.Name = "应急救援ToolStripMenuItem";
+            this.应急救援ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.应急救援ToolStripMenuItem.Text = "应急救援";
             // 
             // splitContainer1
             // 
@@ -308,40 +347,26 @@ namespace GIS_FIre
             this.axLicenseControl2.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl2.TabIndex = 1;
             // 
-            // 编辑EToolStripMenuItem
+            // 应急预案ToolStripMenuItem
             // 
-            this.编辑EToolStripMenuItem.Name = "编辑EToolStripMenuItem";
-            this.编辑EToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.编辑EToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
-            this.编辑EToolStripMenuItem.Text = "编辑(E)";
+            this.应急预案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.逃生路线规划ToolStripMenuItem,
+            this.消防救援规划ToolStripMenuItem});
+            this.应急预案ToolStripMenuItem.Name = "应急预案ToolStripMenuItem";
+            this.应急预案ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.应急预案ToolStripMenuItem.Text = "应急预案";
             // 
-            // 火灾模拟ToolStripMenuItem
+            // 逃生路线规划ToolStripMenuItem
             // 
-            this.火灾模拟ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.着火点设置ToolStripMenuItem,
-            this.火灾扩散ToolStripMenuItem,
-            this.应急救援ToolStripMenuItem});
-            this.火灾模拟ToolStripMenuItem.Name = "火灾模拟ToolStripMenuItem";
-            this.火灾模拟ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
-            this.火灾模拟ToolStripMenuItem.Text = "火灾模拟";
+            this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
+            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
             // 
-            // 着火点设置ToolStripMenuItem
+            // 消防救援规划ToolStripMenuItem
             // 
-            this.着火点设置ToolStripMenuItem.Name = "着火点设置ToolStripMenuItem";
-            this.着火点设置ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.着火点设置ToolStripMenuItem.Text = "着火点设置";
-            // 
-            // 火灾扩散ToolStripMenuItem
-            // 
-            this.火灾扩散ToolStripMenuItem.Name = "火灾扩散ToolStripMenuItem";
-            this.火灾扩散ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.火灾扩散ToolStripMenuItem.Text = "火灾扩散";
-            // 
-            // 应急救援ToolStripMenuItem
-            // 
-            this.应急救援ToolStripMenuItem.Name = "应急救援ToolStripMenuItem";
-            this.应急救援ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.应急救援ToolStripMenuItem.Text = "应急救援";
+            this.消防救援规划ToolStripMenuItem.Name = "消防救援规划ToolStripMenuItem";
+            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.消防救援规划ToolStripMenuItem.Text = "消防救援规划";
             // 
             // Form1
             // 
@@ -410,6 +435,9 @@ namespace GIS_FIre
         private System.Windows.Forms.ToolStripMenuItem 着火点设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 火灾扩散ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 应急救援ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 应急预案ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 逃生路线规划ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 消防救援规划ToolStripMenuItem;
     }
 }
 
