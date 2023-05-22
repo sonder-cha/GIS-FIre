@@ -37,6 +37,7 @@ namespace GIS_FIre
             this.打开OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.添加数据TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.退出XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,6 @@ namespace GIS_FIre
             this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -138,6 +138,14 @@ namespace GIS_FIre
             this.保存SToolStripMenuItem.Text = "保存(S)...";
             this.保存SToolStripMenuItem.Click += new System.EventHandler(this.保存SToolStripMenuItem_Click);
             // 
+            // 另存为ToolStripMenuItem
+            // 
+            this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
+            this.另存为ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.另存为ToolStripMenuItem.Text = "另存为(A)...";
+            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
+            // 
             // 添加数据TToolStripMenuItem
             // 
             this.添加数据TToolStripMenuItem.Name = "添加数据TToolStripMenuItem";
@@ -157,6 +165,7 @@ namespace GIS_FIre
             this.退出XToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.退出XToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.退出XToolStripMenuItem.Text = "退出(X)...";
+            this.退出XToolStripMenuItem.Click += new System.EventHandler(this.退出XToolStripMenuItem_Click);
             // 
             // 风险评估ToolStripMenuItem
             // 
@@ -171,19 +180,19 @@ namespace GIS_FIre
             // 火灾预警ToolStripMenuItem
             // 
             this.火灾预警ToolStripMenuItem.Name = "火灾预警ToolStripMenuItem";
-            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.火灾预警ToolStripMenuItem.Text = "火灾预警";
             // 
             // 可燃性分析ToolStripMenuItem
             // 
             this.可燃性分析ToolStripMenuItem.Name = "可燃性分析ToolStripMenuItem";
-            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.可燃性分析ToolStripMenuItem.Text = "可燃性分析";
             // 
             // 影响范围ToolStripMenuItem
             // 
             this.影响范围ToolStripMenuItem.Name = "影响范围ToolStripMenuItem";
-            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.影响范围ToolStripMenuItem.Text = "影响范围";
             // 
             // splitContainer1
@@ -291,14 +300,6 @@ namespace GIS_FIre
             this.axLicenseControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl2.OcxState")));
             this.axLicenseControl2.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl2.TabIndex = 1;
-            // 
-            // 另存为ToolStripMenuItem
-            // 
-            this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
-            this.另存为ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.另存为ToolStripMenuItem.Text = "另存为(A)...";
-            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
             // 
             // Form1
             // 

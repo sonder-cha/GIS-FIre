@@ -51,5 +51,10 @@ namespace GIS_FIre
             pCommand.OnCreate(axMapControlMain.Object);
             pCommand.OnClick();
         }
+
+        private void 退出XToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
