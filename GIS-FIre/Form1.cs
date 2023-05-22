@@ -35,5 +35,13 @@ namespace GIS_FIre
             pCommand.OnCreate(axMapControl2.Object);
             pCommand.OnClick();
         }
+
+        private void 新建NToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ESRI.ArcGIS.SystemUI.ICommand pCommand;
+            pCommand = new ESRI.ArcGIS.Controls.
+            pCommand.OnCreate(axMapControl2.Object);
+            pCommand.OnClick();
+        }
     }
 }
