@@ -17,14 +17,14 @@ namespace GIS_FIre
         {
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
             InitializeComponent();
-            axTOCControl1.SetBuddyControl(axMapControl2);
+            axTOCControl1.SetBuddyControl(axMapControlMain);
         }
 
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ESRI.ArcGIS.SystemUI.ICommand pCommand;
             pCommand = new ESRI.ArcGIS.Controls.ControlsOpenDocCommand();
-            pCommand.OnCreate(axMapControl1.Object);
+            pCommand.OnCreate(axMapControlMain.Object);
             pCommand.OnClick();
         }
 
@@ -32,15 +32,23 @@ namespace GIS_FIre
         {
             ESRI.ArcGIS.SystemUI.ICommand pCommand;
             pCommand = new ESRI.ArcGIS.Controls.ControlsAddDataCommand();
-            pCommand.OnCreate(axMapControl2.Object);
+            pCommand.OnCreate(axMapControlMain.Object);
             pCommand.OnClick();
         }
 
-        private void 新建NToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 保存SToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ESRI.ArcGIS.SystemUI.ICommand pCommand;
-            pCommand = new ESRI.ArcGIS.Controls.
-            pCommand.OnCreate(axMapControl2.Object);
+            pCommand = new ESRI.ArcGIS.Controls.ControlsEditingSaveCommand();
+            pCommand.OnCreate(axMapControlMain.Object);
+            pCommand.OnClick();
+        }
+
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ESRI.ArcGIS.SystemUI.ICommand pCommand;
+            pCommand = new ESRI.ArcGIS.Controls.ControlsSaveAsDocCommand();
+            pCommand.OnCreate(axMapControlMain.Object);
             pCommand.OnClick();
         }
     }

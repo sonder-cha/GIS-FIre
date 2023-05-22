@@ -33,6 +33,13 @@ namespace GIS_FIre
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.axToolbarControl2 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加数据TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.退出XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.风险评估ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.火灾预警ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.可燃性分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,20 +47,13 @@ namespace GIS_FIre
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
-            this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.axMapControlSmall = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.axMapControl2 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新建NToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.打开OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.退出XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.添加数据TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -66,10 +66,10 @@ namespace GIS_FIre
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,6 +101,62 @@ namespace GIS_FIre
             this.menuStrip1.Size = new System.Drawing.Size(1121, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // 文件FToolStripMenuItem
+            // 
+            this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开OToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.保存SToolStripMenuItem,
+            this.另存为ToolStripMenuItem,
+            this.添加数据TToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.退出XToolStripMenuItem});
+            this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
+            this.文件FToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.文件FToolStripMenuItem.Text = "文件(F)";
+            // 
+            // 打开OToolStripMenuItem
+            // 
+            this.打开OToolStripMenuItem.Name = "打开OToolStripMenuItem";
+            this.打开OToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.打开OToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.打开OToolStripMenuItem.Text = "打开(O)...";
+            this.打开OToolStripMenuItem.Click += new System.EventHandler(this.打开OToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            // 
+            // 保存SToolStripMenuItem
+            // 
+            this.保存SToolStripMenuItem.Name = "保存SToolStripMenuItem";
+            this.保存SToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.保存SToolStripMenuItem.Text = "保存(S)...";
+            this.保存SToolStripMenuItem.Click += new System.EventHandler(this.保存SToolStripMenuItem_Click);
+            // 
+            // 添加数据TToolStripMenuItem
+            // 
+            this.添加数据TToolStripMenuItem.Name = "添加数据TToolStripMenuItem";
+            this.添加数据TToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.添加数据TToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.添加数据TToolStripMenuItem.Text = "添加数据(T)...";
+            this.添加数据TToolStripMenuItem.Click += new System.EventHandler(this.添加数据TToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            // 
+            // 退出XToolStripMenuItem
+            // 
+            this.退出XToolStripMenuItem.Name = "退出XToolStripMenuItem";
+            this.退出XToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.退出XToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.退出XToolStripMenuItem.Text = "退出(X)...";
             // 
             // 风险评估ToolStripMenuItem
             // 
@@ -162,7 +218,7 @@ namespace GIS_FIre
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.axMapControl1);
+            this.splitContainer2.Panel2.Controls.Add(this.axMapControlSmall);
             this.splitContainer2.Size = new System.Drawing.Size(283, 602);
             this.splitContainer2.SplitterDistance = 412;
             this.splitContainer2.TabIndex = 0;
@@ -176,14 +232,14 @@ namespace GIS_FIre
             this.axTOCControl1.Size = new System.Drawing.Size(283, 412);
             this.axTOCControl1.TabIndex = 0;
             // 
-            // axMapControl1
+            // axMapControlSmall
             // 
-            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.axMapControl1.Name = "axMapControl1";
-            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(283, 186);
-            this.axMapControl1.TabIndex = 0;
+            this.axMapControlSmall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControlSmall.Location = new System.Drawing.Point(0, 0);
+            this.axMapControlSmall.Name = "axMapControlSmall";
+            this.axMapControlSmall.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlSmall.OcxState")));
+            this.axMapControlSmall.Size = new System.Drawing.Size(283, 186);
+            this.axMapControlSmall.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -199,7 +255,7 @@ namespace GIS_FIre
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.axMapControl2);
+            this.tabPage1.Controls.Add(this.axMapControlMain);
             this.tabPage1.Location = new System.Drawing.Point(4, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -208,21 +264,21 @@ namespace GIS_FIre
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // axMapControl2
+            // axMapControlMain
             // 
-            this.axMapControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl2.Location = new System.Drawing.Point(3, 3);
-            this.axMapControl2.Name = "axMapControl2";
-            this.axMapControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl2.OcxState")));
-            this.axMapControl2.Size = new System.Drawing.Size(820, 567);
-            this.axMapControl2.TabIndex = 0;
+            this.axMapControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControlMain.Location = new System.Drawing.Point(3, 3);
+            this.axMapControlMain.Name = "axMapControlMain";
+            this.axMapControlMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlMain.OcxState")));
+            this.axMapControlMain.Size = new System.Drawing.Size(820, 567);
+            this.axMapControlMain.TabIndex = 0;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(826, 630);
+            this.tabPage2.Size = new System.Drawing.Size(826, 573);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -236,67 +292,13 @@ namespace GIS_FIre
             this.axLicenseControl2.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl2.TabIndex = 1;
             // 
-            // 文件FToolStripMenuItem
+            // 另存为ToolStripMenuItem
             // 
-            this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新建NToolStripMenuItem,
-            this.打开OToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.保存SToolStripMenuItem,
-            this.添加数据TToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.退出XToolStripMenuItem});
-            this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
-            this.文件FToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
-            this.文件FToolStripMenuItem.Text = "文件(F)";
-            // 
-            // 新建NToolStripMenuItem
-            // 
-            this.新建NToolStripMenuItem.Name = "新建NToolStripMenuItem";
-            this.新建NToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.新建NToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.新建NToolStripMenuItem.Text = "新建(N)...";
-            // 
-            // 打开OToolStripMenuItem
-            // 
-            this.打开OToolStripMenuItem.Name = "打开OToolStripMenuItem";
-            this.打开OToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.打开OToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.打开OToolStripMenuItem.Text = "打开(O)...";
-            this.打开OToolStripMenuItem.Click += new System.EventHandler(this.打开OToolStripMenuItem_Click);
-            // 
-            // 保存SToolStripMenuItem
-            // 
-            this.保存SToolStripMenuItem.Name = "保存SToolStripMenuItem";
-            this.保存SToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.保存SToolStripMenuItem.Text = "保存(S)...";
-            // 
-            // 退出XToolStripMenuItem
-            // 
-            this.退出XToolStripMenuItem.Name = "退出XToolStripMenuItem";
-            this.退出XToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.退出XToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.退出XToolStripMenuItem.Text = "退出(X)...";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
-            // 
-            // 添加数据TToolStripMenuItem
-            // 
-            this.添加数据TToolStripMenuItem.Name = "添加数据TToolStripMenuItem";
-            this.添加数据TToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.添加数据TToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.添加数据TToolStripMenuItem.Text = "添加数据(T)...";
-            this.添加数据TToolStripMenuItem.Click += new System.EventHandler(this.添加数据TToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
+            this.另存为ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.另存为ToolStripMenuItem.Text = "另存为(A)...";
+            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -324,10 +326,10 @@ namespace GIS_FIre
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -349,17 +351,17 @@ namespace GIS_FIre
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
-        private ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
-        private ESRI.ArcGIS.Controls.AxMapControl axMapControl2;
+        private ESRI.ArcGIS.Controls.AxMapControl axMapControlSmall;
+        private ESRI.ArcGIS.Controls.AxMapControl axMapControlMain;
         private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl2;
         private System.Windows.Forms.ToolStripMenuItem 文件FToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 新建NToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开OToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem 保存SToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 添加数据TToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem 退出XToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 另存为ToolStripMenuItem;
     }
 }
 
