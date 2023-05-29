@@ -62,6 +62,7 @@ namespace GIS_FIre
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.gbx_attribution = new System.Windows.Forms.GroupBox();
             this.dgv_attribution = new System.Windows.Forms.DataGridView();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -71,7 +72,6 @@ namespace GIS_FIre
             this.移除MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开属性表MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至图层MenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gbx_attribution = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -89,10 +89,10 @@ namespace GIS_FIre
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.gbx_attribution.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            this.gbx_attribution.SuspendLayout();
             this.SuspendLayout();
             // 
             // axToolbarControl1
@@ -105,8 +105,8 @@ namespace GIS_FIre
             // 
             // axToolbarControl2
             // 
-            this.axToolbarControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.axToolbarControl2.Location = new System.Drawing.Point(912, 31);
+            this.axToolbarControl2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.axToolbarControl2.Location = new System.Drawing.Point(915, 30);
             this.axToolbarControl2.Name = "axToolbarControl2";
             this.axToolbarControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl2.OcxState")));
             this.axToolbarControl2.Size = new System.Drawing.Size(206, 28);
@@ -123,7 +123,7 @@ namespace GIS_FIre
             this.应急预案ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1121, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1121, 30);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -139,7 +139,7 @@ namespace GIS_FIre
             this.退出XToolStripMenuItem});
             this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
             this.文件FToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(71, 26);
             this.文件FToolStripMenuItem.Text = "文件(F)";
             // 
             // 打开OToolStripMenuItem
@@ -196,7 +196,7 @@ namespace GIS_FIre
             // 
             this.编辑EToolStripMenuItem.Name = "编辑EToolStripMenuItem";
             this.编辑EToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.编辑EToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.编辑EToolStripMenuItem.Size = new System.Drawing.Size(71, 26);
             this.编辑EToolStripMenuItem.Text = "编辑(E)";
             // 
             // 风险评估ToolStripMenuItem
@@ -206,25 +206,25 @@ namespace GIS_FIre
             this.可燃性分析ToolStripMenuItem,
             this.影响范围ToolStripMenuItem});
             this.风险评估ToolStripMenuItem.Name = "风险评估ToolStripMenuItem";
-            this.风险评估ToolStripMenuItem.Size = new System.Drawing.Size(113, 24);
+            this.风险评估ToolStripMenuItem.Size = new System.Drawing.Size(113, 26);
             this.风险评估ToolStripMenuItem.Text = "火灾风险评估";
             // 
             // 火灾预警ToolStripMenuItem
             // 
             this.火灾预警ToolStripMenuItem.Name = "火灾预警ToolStripMenuItem";
-            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.火灾预警ToolStripMenuItem.Text = "火灾预警";
             // 
             // 可燃性分析ToolStripMenuItem
             // 
             this.可燃性分析ToolStripMenuItem.Name = "可燃性分析ToolStripMenuItem";
-            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.可燃性分析ToolStripMenuItem.Text = "可燃性分析";
             // 
             // 影响范围ToolStripMenuItem
             // 
             this.影响范围ToolStripMenuItem.Name = "影响范围ToolStripMenuItem";
-            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.影响范围ToolStripMenuItem.Text = "影响范围";
             // 
             // 火灾模拟ToolStripMenuItem
@@ -234,25 +234,25 @@ namespace GIS_FIre
             this.火灾扩散ToolStripMenuItem,
             this.应急救援ToolStripMenuItem});
             this.火灾模拟ToolStripMenuItem.Name = "火灾模拟ToolStripMenuItem";
-            this.火灾模拟ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.火灾模拟ToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
             this.火灾模拟ToolStripMenuItem.Text = "火灾模拟";
             // 
             // 着火点设置ToolStripMenuItem
             // 
             this.着火点设置ToolStripMenuItem.Name = "着火点设置ToolStripMenuItem";
-            this.着火点设置ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.着火点设置ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.着火点设置ToolStripMenuItem.Text = "着火点设置";
             // 
             // 火灾扩散ToolStripMenuItem
             // 
             this.火灾扩散ToolStripMenuItem.Name = "火灾扩散ToolStripMenuItem";
-            this.火灾扩散ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.火灾扩散ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.火灾扩散ToolStripMenuItem.Text = "火灾扩散";
             // 
             // 应急救援ToolStripMenuItem
             // 
             this.应急救援ToolStripMenuItem.Name = "应急救援ToolStripMenuItem";
-            this.应急救援ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.应急救援ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
             this.应急救援ToolStripMenuItem.Text = "应急救援";
             // 
             // 应急预案ToolStripMenuItem
@@ -261,7 +261,7 @@ namespace GIS_FIre
             this.逃生路线规划ToolStripMenuItem,
             this.消防救援规划ToolStripMenuItem});
             this.应急预案ToolStripMenuItem.Name = "应急预案ToolStripMenuItem";
-            this.应急预案ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.应急预案ToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
             this.应急预案ToolStripMenuItem.Text = "应急预案";
             // 
             // 逃生路线规划ToolStripMenuItem
@@ -352,7 +352,7 @@ namespace GIS_FIre
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(826, 573);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "地图";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // axMapControlMain
@@ -372,8 +372,19 @@ namespace GIS_FIre
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(826, 573);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "属性表";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // gbx_attribution
+            // 
+            this.gbx_attribution.Controls.Add(this.dgv_attribution);
+            this.gbx_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbx_attribution.Location = new System.Drawing.Point(3, 3);
+            this.gbx_attribution.Name = "gbx_attribution";
+            this.gbx_attribution.Size = new System.Drawing.Size(820, 567);
+            this.gbx_attribution.TabIndex = 1;
+            this.gbx_attribution.TabStop = false;
+            this.gbx_attribution.Text = "Attrubution";
             // 
             // dgv_attribution
             // 
@@ -447,25 +458,14 @@ namespace GIS_FIre
             this.缩放至图层MenuItem.Text = "缩放至图层";
             this.缩放至图层MenuItem.Click += new System.EventHandler(this.缩放至图层MenuItem_Click);
             // 
-            // gbx_attribution
-            // 
-            this.gbx_attribution.Controls.Add(this.dgv_attribution);
-            this.gbx_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbx_attribution.Location = new System.Drawing.Point(3, 3);
-            this.gbx_attribution.Name = "gbx_attribution";
-            this.gbx_attribution.Size = new System.Drawing.Size(820, 567);
-            this.gbx_attribution.TabIndex = 1;
-            this.gbx_attribution.TabStop = false;
-            this.gbx_attribution.Text = "Attrubution";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1121, 682);
+            this.Controls.Add(this.axToolbarControl2);
             this.Controls.Add(this.axLicenseControl2);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.axToolbarControl2);
             this.Controls.Add(this.axToolbarControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -489,10 +489,10 @@ namespace GIS_FIre
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.gbx_attribution.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.gbx_attribution.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

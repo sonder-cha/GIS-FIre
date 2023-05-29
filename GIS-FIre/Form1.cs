@@ -23,6 +23,7 @@ namespace GIS_FIre
         /// <summary>
         /// 选中图层的标识
         /// </summary>
+
         private ILayer pGlobeLayer = null;
         public Form1()
         {
@@ -31,6 +32,7 @@ namespace GIS_FIre
             axTOCControl1.SetBuddyControl(axMapControlMain);
         }
 
+        #region 功能栏-文件
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ESRI.ArcGIS.SystemUI.ICommand pCommand;
@@ -67,7 +69,9 @@ namespace GIS_FIre
         {
             Application.Exit();
         }
+        #endregion
 
+        #region 图层右键菜单
         private void axTOCControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.ITOCControlEvents_OnMouseDownEvent e)
         {
             if (axMapControlMain.LayerCount > 0)
@@ -115,6 +119,7 @@ namespace GIS_FIre
         /// <summary>
         /// 创建属性表并且显示
         /// </summary>
+        
         private void AttributeTable_Load()
         {
             IFeatureLayer pFeatureLayer = pGlobeLayer as IFeatureLayer;
@@ -172,6 +177,7 @@ namespace GIS_FIre
         /// 图层上移或者下移
         /// </summary>
         /// <param name="UD">上移为0，下移为其他</param>
+        
         public void ExchangeLayers(int UD)
         {
             IMap pMap = axMapControlMain.Map;
@@ -202,5 +208,9 @@ namespace GIS_FIre
         {
             ExchangeLayers(1);
         }
+        #endregion
+
     }
+
+
 }
