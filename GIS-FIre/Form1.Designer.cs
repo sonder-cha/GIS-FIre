@@ -29,6 +29,7 @@ namespace GIS_FIre
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.axToolbarControl2 = new ESRI.ArcGIS.Controls.AxToolbarControl();
@@ -50,6 +51,9 @@ namespace GIS_FIre
             this.着火点设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.火灾扩散ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.应急救援ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.应急预案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.逃生路线规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.消防救援规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -58,10 +62,16 @@ namespace GIS_FIre
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgv_attribution = new System.Windows.Forms.DataGridView();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.应急预案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.逃生路线规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.消防救援规划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.上一层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.下一层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.移除MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开属性表MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.缩放至图层MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gbx_attribution = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -78,7 +88,11 @@ namespace GIS_FIre
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.gbx_attribution.SuspendLayout();
             this.SuspendLayout();
             // 
             // axToolbarControl1
@@ -241,6 +255,27 @@ namespace GIS_FIre
             this.应急救援ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.应急救援ToolStripMenuItem.Text = "应急救援";
             // 
+            // 应急预案ToolStripMenuItem
+            // 
+            this.应急预案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.逃生路线规划ToolStripMenuItem,
+            this.消防救援规划ToolStripMenuItem});
+            this.应急预案ToolStripMenuItem.Name = "应急预案ToolStripMenuItem";
+            this.应急预案ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.应急预案ToolStripMenuItem.Text = "应急预案";
+            // 
+            // 逃生路线规划ToolStripMenuItem
+            // 
+            this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
+            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
+            // 
+            // 消防救援规划ToolStripMenuItem
+            // 
+            this.消防救援规划ToolStripMenuItem.Name = "消防救援规划ToolStripMenuItem";
+            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.消防救援规划ToolStripMenuItem.Text = "消防救援规划";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -286,6 +321,7 @@ namespace GIS_FIre
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
             this.axTOCControl1.Size = new System.Drawing.Size(283, 412);
             this.axTOCControl1.TabIndex = 0;
+            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             // 
             // axMapControlSmall
             // 
@@ -330,6 +366,7 @@ namespace GIS_FIre
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.gbx_attribution);
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -337,6 +374,16 @@ namespace GIS_FIre
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dgv_attribution
+            // 
+            this.dgv_attribution.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_attribution.Location = new System.Drawing.Point(3, 21);
+            this.dgv_attribution.Name = "dgv_attribution";
+            this.dgv_attribution.RowHeadersWidth = 51;
+            this.dgv_attribution.Size = new System.Drawing.Size(814, 543);
+            this.dgv_attribution.TabIndex = 0;
             // 
             // axLicenseControl2
             // 
@@ -347,26 +394,69 @@ namespace GIS_FIre
             this.axLicenseControl2.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl2.TabIndex = 1;
             // 
-            // 应急预案ToolStripMenuItem
+            // contextMenuStrip1
             // 
-            this.应急预案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.逃生路线规划ToolStripMenuItem,
-            this.消防救援规划ToolStripMenuItem});
-            this.应急预案ToolStripMenuItem.Name = "应急预案ToolStripMenuItem";
-            this.应急预案ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
-            this.应急预案ToolStripMenuItem.Text = "应急预案";
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.上一层ToolStripMenuItem,
+            this.下一层ToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.移除MenuItem,
+            this.打开属性表MenuItem,
+            this.缩放至图层MenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 130);
             // 
-            // 逃生路线规划ToolStripMenuItem
+            // 上一层ToolStripMenuItem
             // 
-            this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
-            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
+            this.上一层ToolStripMenuItem.Name = "上一层ToolStripMenuItem";
+            this.上一层ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.上一层ToolStripMenuItem.Text = "上一层";
+            this.上一层ToolStripMenuItem.Click += new System.EventHandler(this.上一层ToolStripMenuItem_Click);
             // 
-            // 消防救援规划ToolStripMenuItem
+            // 下一层ToolStripMenuItem
             // 
-            this.消防救援规划ToolStripMenuItem.Name = "消防救援规划ToolStripMenuItem";
-            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.消防救援规划ToolStripMenuItem.Text = "消防救援规划";
+            this.下一层ToolStripMenuItem.Name = "下一层ToolStripMenuItem";
+            this.下一层ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.下一层ToolStripMenuItem.Text = "下一层";
+            this.下一层ToolStripMenuItem.Click += new System.EventHandler(this.下一层ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
+            // 
+            // 移除MenuItem
+            // 
+            this.移除MenuItem.Name = "移除MenuItem";
+            this.移除MenuItem.Size = new System.Drawing.Size(153, 24);
+            this.移除MenuItem.Text = "移除";
+            this.移除MenuItem.Click += new System.EventHandler(this.移除MenuItem_Click);
+            // 
+            // 打开属性表MenuItem
+            // 
+            this.打开属性表MenuItem.Name = "打开属性表MenuItem";
+            this.打开属性表MenuItem.Size = new System.Drawing.Size(153, 24);
+            this.打开属性表MenuItem.Text = "打开属性表";
+            this.打开属性表MenuItem.Click += new System.EventHandler(this.打开属性表MenuItem_Click);
+            // 
+            // 缩放至图层MenuItem
+            // 
+            this.缩放至图层MenuItem.Name = "缩放至图层MenuItem";
+            this.缩放至图层MenuItem.Size = new System.Drawing.Size(153, 24);
+            this.缩放至图层MenuItem.Text = "缩放至图层";
+            this.缩放至图层MenuItem.Click += new System.EventHandler(this.缩放至图层MenuItem_Click);
+            // 
+            // gbx_attribution
+            // 
+            this.gbx_attribution.Controls.Add(this.dgv_attribution);
+            this.gbx_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbx_attribution.Location = new System.Drawing.Point(3, 3);
+            this.gbx_attribution.Name = "gbx_attribution";
+            this.gbx_attribution.Size = new System.Drawing.Size(820, 567);
+            this.gbx_attribution.TabIndex = 1;
+            this.gbx_attribution.TabStop = false;
+            this.gbx_attribution.Text = "Attrubution";
             // 
             // Form1
             // 
@@ -398,7 +488,11 @@ namespace GIS_FIre
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.gbx_attribution.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,6 +532,15 @@ namespace GIS_FIre
         private System.Windows.Forms.ToolStripMenuItem 应急预案ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 逃生路线规划ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 消防救援规划ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 上一层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 下一层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem 移除MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开属性表MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 缩放至图层MenuItem;
+        private System.Windows.Forms.DataGridView dgv_attribution;
+        private System.Windows.Forms.GroupBox gbx_attribution;
     }
 }
 
