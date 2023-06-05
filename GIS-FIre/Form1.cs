@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
+using ESRI.ArcGIS.Display;
 
 /* 虞世宁 更改于5/27 添加了图层右键菜单（上下移、删除、缩放至图层、属性表）
  
@@ -32,15 +35,38 @@ namespace GIS_FIre
             axTOCControl1.SetBuddyControl(axMapControlMain);
         }
 
+        private string mapDocumentName = string.Empty;
+
         #region 功能栏-文件
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ESRI.ArcGIS.SystemUI.ICommand pCommand;
-            pCommand = new ESRI.ArcGIS.Controls.ControlsOpenDocCommand();
-            pCommand.OnCreate(axMapControlMain.Object);
-            pCommand.OnClick();
+            //ESRI.ArcGIS.SystemUI.ICommand pCommand;
+            //pCommand = new ESRI.ArcGIS.Controls.ControlsOpenDocCommand();
+            //pCommand.OnCreate(axMapControlMain.Object);
+            //pCommand.OnClick();
+
+            System.Windows.Forms.OpenFileDialog openFileDialog2;
+            openFileDialog2 = new OpenFileDialog();
+            openFileDialog2.Title = "打开mxd文件";
+            openFileDialog2.Filter = "Map Documents (*.mxd)|*.mxd";
+            openFileDialog2.ShowDialog();
+            string sFilePath = openFileDialog2.FileName;
+
+            if (axMapControlMain.CheckMxFile(sFilePath))
+            {
+                axMapControlMain.MousePointer =
+                esriControlsMousePointer.esriPointerHourglass;
+                axMapControlMain.LoadMxFile(sFilePath, 0, Type.Missing);
+                axMapControlMain.MousePointer = esriControlsMousePointer.esriPointerDefault;
+                //axMapControlSmall.LoadMxFile(sFilePath, 0, Type.Missing);
+            }
+            else
+            {
+                MessageBox.Show(sFilePath + " 不是mxd文件");
+                return;
+            }
         }
-        
+
         private void 添加数据TToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ESRI.ArcGIS.SystemUI.ICommand pCommand;
@@ -51,10 +77,30 @@ namespace GIS_FIre
 
         private void 保存SToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ESRI.ArcGIS.SystemUI.ICommand pCommand;
-            pCommand = new ESRI.ArcGIS.Controls.ControlsEditingSaveCommand();
-            pCommand.OnCreate(axMapControlMain.Object);
-            pCommand.OnClick();
+            //ESRI.ArcGIS.SystemUI.ICommand pCommand;
+            //pCommand = new ESRI.ArcGIS.Controls.ControlsEditingSaveCommand();
+            //pCommand.OnCreate(axMapControlMain.Object);
+            //pCommand.OnClick();
+
+            if (axMapControlMain.CheckMxFile(mapDocumentName))
+            {
+
+                IMapDocument mapDoc = new MapDocumentClass();
+                mapDoc.Open(mapDocumentName, string.Empty);
+
+
+                if (mapDoc.get_IsReadOnly(mapDocumentName))
+                {
+                    MessageBox.Show("当前文档为只读型!");
+                    mapDoc.Close();
+                    return;
+                }
+                mapDoc.ReplaceContents((IMxdContents)axMapControlMain.Map);
+
+                mapDoc.Save(mapDoc.UsesRelativePaths, false);
+
+                mapDoc.Close();
+            }
         }
 
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,6 +161,7 @@ namespace GIS_FIre
             AttributeTable_Load();
             gbx_attribution.Text = "Attribution—" + pGlobeLayer.Name;
             tabControl1.SelectedIndex = 1;
+            tabControl1.Enabled = true;
         }
         /// <summary>
         /// 创建属性表并且显示
@@ -209,6 +256,79 @@ namespace GIS_FIre
             ExchangeLayers(1);
         }
         #endregion
+
+        private void axMapControlMain_OnMapReplaced(object sender, IMapControlEvents2_OnMapReplacedEvent e)
+        {
+            //mapDocumentName = axMapControlMain.DocumentFilename;
+            //IEagOpt pEagOpt = new GeoMapAO();
+            //pEagOpt.AxMapControl1 = axMapControlMain;
+            ////pEagOpt.AxMapControl2 = axMapControl2;
+            //pEagOpt.NewGeomap();
+            //copyToPageLayout();
+
+            IMap pmap = axMapControlMain.Map;
+            axMapControlSmall.Map.ClearLayers();
+            int i;
+            for (i = 0; i < pmap.LayerCount; i++)
+            {
+                IObjectCopy objectcopy = new ObjectCopyClass();
+                object toCopyLayer = axMapControlMain.get_Layer(i);
+                object copiedLayer = objectcopy.Copy(toCopyLayer);
+
+                axMapControlSmall.Map.AddLayer(copiedLayer as ILayer);
+            }
+            axMapControlSmall.Extent = axMapControlMain.FullExtent;
+            axMapControlSmall.Refresh();
+        }
+
+        private void axMapControlMain_OnExtentUpdated(object sender, IMapControlEvents2_OnExtentUpdatedEvent e)
+        {
+            IMap pmap = axMapControlMain.Map;
+            axMapControlSmall.Map.ClearLayers();
+            int i;
+            for (i = 0; i < pmap.LayerCount; i++)
+            {
+                IObjectCopy objectcopy = new ObjectCopyClass();
+                object toCopyLayer = axMapControlMain.get_Layer(i);
+                object copiedLayer = objectcopy.Copy(toCopyLayer);
+
+                axMapControlSmall.Map.AddLayer(copiedLayer as ILayer);
+            }
+            axMapControlSmall.Extent = axMapControlMain.FullExtent;
+            axMapControlSmall.Refresh();
+
+            IEnvelope pEnv;
+            pEnv = e.newEnvelope as IEnvelope;
+            IGraphicsContainer graphicscontainer;
+            IActiveView activewer;
+            graphicscontainer = axMapControlSmall.Map as IGraphicsContainer;
+            activewer = graphicscontainer as IActiveView;
+            graphicscontainer.DeleteAllElements();
+            IElement plement;
+            plement = new RectangleElementClass();
+            plement.Geometry = pEnv;
+
+            IRgbColor rgbcol = new RgbColorClass();
+            rgbcol.RGB = 255;
+            rgbcol.Transparency = 255;
+            ILineSymbol poutline = new SimpleLineSymbolClass();
+            poutline.Width = 1;
+            poutline.Color = rgbcol;
+            IRgbColor pcolor = new RgbColorClass();
+            pcolor.RGB = 255;
+            pcolor.Transparency = 0;
+            IFillSymbol fillsym = new SimpleFillSymbolClass();
+            fillsym.Color = pcolor;
+            fillsym.Outline = poutline;
+
+            IFillShapeElement pfillshapeelement;
+            pfillshapeelement = plement as IFillShapeElement;
+            pfillshapeelement.Symbol = fillsym;
+
+            plement = pfillshapeelement as IElement;
+            graphicscontainer.AddElement(plement, 0);
+            activewer.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+        }
 
     }
 
