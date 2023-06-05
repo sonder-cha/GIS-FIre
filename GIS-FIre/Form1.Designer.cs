@@ -57,11 +57,10 @@ namespace GIS_FIre
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
-            this.axMapControlSmall = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.gbx_attribution = new System.Windows.Forms.GroupBox();
             this.dgv_attribution = new System.Windows.Forms.DataGridView();
             this.axLicenseControl2 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -71,7 +70,10 @@ namespace GIS_FIre
             this.移除MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开属性表MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至图层MenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gbx_attribution = new System.Windows.Forms.GroupBox();
+            this.打开网络数据集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.axMapControlSmall = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -84,15 +86,15 @@ namespace GIS_FIre
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.gbx_attribution.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            this.gbx_attribution.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
             this.SuspendLayout();
             // 
             // axToolbarControl1
@@ -100,7 +102,7 @@ namespace GIS_FIre
             this.axToolbarControl1.Location = new System.Drawing.Point(0, 31);
             this.axToolbarControl1.Name = "axToolbarControl1";
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
-            this.axToolbarControl1.Size = new System.Drawing.Size(355, 28);
+            this.axToolbarControl1.Size = new System.Drawing.Size(358, 28);
             this.axToolbarControl1.TabIndex = 0;
             // 
             // axToolbarControl2
@@ -109,7 +111,7 @@ namespace GIS_FIre
             this.axToolbarControl2.Location = new System.Drawing.Point(912, 31);
             this.axToolbarControl2.Name = "axToolbarControl2";
             this.axToolbarControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl2.OcxState")));
-            this.axToolbarControl2.Size = new System.Drawing.Size(206, 28);
+            this.axToolbarControl2.Size = new System.Drawing.Size(208, 28);
             this.axToolbarControl2.TabIndex = 3;
             // 
             // menuStrip1
@@ -131,6 +133,7 @@ namespace GIS_FIre
             // 
             this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.打开OToolStripMenuItem,
+            this.打开网络数据集ToolStripMenuItem,
             this.toolStripSeparator1,
             this.保存SToolStripMenuItem,
             this.另存为ToolStripMenuItem,
@@ -269,6 +272,7 @@ namespace GIS_FIre
             this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
             this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
+            this.逃生路线规划ToolStripMenuItem.Click += new System.EventHandler(this.逃生路线规划ToolStripMenuItem_Click);
             // 
             // 消防救援规划ToolStripMenuItem
             // 
@@ -323,15 +327,6 @@ namespace GIS_FIre
             this.axTOCControl1.TabIndex = 0;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             // 
-            // axMapControlSmall
-            // 
-            this.axMapControlSmall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControlSmall.Location = new System.Drawing.Point(0, 0);
-            this.axMapControlSmall.Name = "axMapControlSmall";
-            this.axMapControlSmall.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlSmall.OcxState")));
-            this.axMapControlSmall.Size = new System.Drawing.Size(283, 186);
-            this.axMapControlSmall.TabIndex = 0;
-            // 
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
@@ -355,15 +350,6 @@ namespace GIS_FIre
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // axMapControlMain
-            // 
-            this.axMapControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControlMain.Location = new System.Drawing.Point(3, 3);
-            this.axMapControlMain.Name = "axMapControlMain";
-            this.axMapControlMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlMain.OcxState")));
-            this.axMapControlMain.Size = new System.Drawing.Size(820, 567);
-            this.axMapControlMain.TabIndex = 0;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.gbx_attribution);
@@ -374,6 +360,17 @@ namespace GIS_FIre
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // gbx_attribution
+            // 
+            this.gbx_attribution.Controls.Add(this.dgv_attribution);
+            this.gbx_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbx_attribution.Location = new System.Drawing.Point(3, 3);
+            this.gbx_attribution.Name = "gbx_attribution";
+            this.gbx_attribution.Size = new System.Drawing.Size(820, 567);
+            this.gbx_attribution.TabIndex = 1;
+            this.gbx_attribution.TabStop = false;
+            this.gbx_attribution.Text = "Attrubution";
             // 
             // dgv_attribution
             // 
@@ -447,16 +444,31 @@ namespace GIS_FIre
             this.缩放至图层MenuItem.Text = "缩放至图层";
             this.缩放至图层MenuItem.Click += new System.EventHandler(this.缩放至图层MenuItem_Click);
             // 
-            // gbx_attribution
+            // 打开网络数据集ToolStripMenuItem
             // 
-            this.gbx_attribution.Controls.Add(this.dgv_attribution);
-            this.gbx_attribution.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbx_attribution.Location = new System.Drawing.Point(3, 3);
-            this.gbx_attribution.Name = "gbx_attribution";
-            this.gbx_attribution.Size = new System.Drawing.Size(820, 567);
-            this.gbx_attribution.TabIndex = 1;
-            this.gbx_attribution.TabStop = false;
-            this.gbx_attribution.Text = "Attrubution";
+            this.打开网络数据集ToolStripMenuItem.Name = "打开网络数据集ToolStripMenuItem";
+            this.打开网络数据集ToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.打开网络数据集ToolStripMenuItem.Text = "打开网络数据集";
+            this.打开网络数据集ToolStripMenuItem.Click += new System.EventHandler(this.打开网络数据集ToolStripMenuItem_Click);
+            // 
+            // axMapControlSmall
+            // 
+            this.axMapControlSmall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControlSmall.Location = new System.Drawing.Point(0, 0);
+            this.axMapControlSmall.Name = "axMapControlSmall";
+            this.axMapControlSmall.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlSmall.OcxState")));
+            this.axMapControlSmall.Size = new System.Drawing.Size(283, 186);
+            this.axMapControlSmall.TabIndex = 0;
+            // 
+            // axMapControlMain
+            // 
+            this.axMapControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControlMain.Location = new System.Drawing.Point(3, 3);
+            this.axMapControlMain.Name = "axMapControlMain";
+            this.axMapControlMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlMain.OcxState")));
+            this.axMapControlMain.Size = new System.Drawing.Size(820, 567);
+            this.axMapControlMain.TabIndex = 0;
+            this.axMapControlMain.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             // 
             // Form1
             // 
@@ -484,15 +496,15 @@ namespace GIS_FIre
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.gbx_attribution.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_attribution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl2)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.gbx_attribution.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlSmall)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -541,6 +553,8 @@ namespace GIS_FIre
         private System.Windows.Forms.ToolStripMenuItem 缩放至图层MenuItem;
         private System.Windows.Forms.DataGridView dgv_attribution;
         private System.Windows.Forms.GroupBox gbx_attribution;
+        private System.Windows.Forms.ToolStripMenuItem 打开网络数据集ToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
