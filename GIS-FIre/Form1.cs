@@ -13,11 +13,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Display;
-
-/* 虞世宁 更改于5/27 添加了图层右键菜单（上下移、删除、缩放至图层、属性表）
- 
- 
- */
+using ESRI.ArcGIS.DataSourcesRaster;
 
 namespace GIS_FIre
 {
@@ -26,8 +22,12 @@ namespace GIS_FIre
         /// <summary>
         /// 选中图层的标识
         /// </summary>
-
         private ILayer pGlobeLayer = null;
+        /// <summary>
+        /// 用于影响范围的OnmouseDown判断
+        /// -1表示不进行绘制
+        /// </summary>
+        private double allowEffectHighlight = -1;
         public Form1()
         {
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
@@ -37,6 +37,7 @@ namespace GIS_FIre
 
         private string mapDocumentName = string.Empty;
 
+        /* 查昊天 5.26 */
         #region 功能栏-文件
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -117,6 +118,7 @@ namespace GIS_FIre
         }
         #endregion
 
+        /* 虞世宁 5.27 */
         #region 图层右键菜单
         private void axTOCControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.ITOCControlEvents_OnMouseDownEvent e)
         {
@@ -330,6 +332,212 @@ namespace GIS_FIre
             activewer.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
         }
 
+        public static string pMouseOperator = null;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //BufferSettings bufferSettings = new BufferSettings(axMapControlMain.Map, player, axMapControl1);
+            //bufferSettings.Show();
+
+        }
+
+        /* 虞世宁 6.9 */
+        #region IDW与影响范围
+        /// <summary>
+        /// 反距离加权平均插值
+        /// </summary>
+        private void IDW_Interpolation()
+        {
+            IFeatureLayer featureLayer = pGlobeLayer as IFeatureLayer;
+            IFeatureClass featureClass = featureLayer.FeatureClass;
+            IGeoDataset geo = featureClass as IGeoDataset;
+            ESRI.ArcGIS.GeoAnalyst.IFeatureClassDescriptor feades = new ESRI.ArcGIS.GeoAnalyst.FeatureClassDescriptorClass();
+            feades.Create(featureClass, null, "risk");
+
+            object obj = null;
+            object extend = geo.Extent;
+            object o = null;
+            ESRI.ArcGIS.GeoAnalyst.IRasterRadius rasterrad = new ESRI.ArcGIS.GeoAnalyst.RasterRadiusClass();
+            rasterrad.SetVariable(12, ref obj);
+            object dCell = 1;//可以根据不同的点图层进行设置
+
+            ESRI.ArcGIS.GeoAnalyst.IInterpolationOp3 interpla = new ESRI.ArcGIS.GeoAnalyst.RasterInterpolationOpClass();
+            ESRI.ArcGIS.GeoAnalyst.IRasterAnalysisEnvironment rasanaenv = interpla as ESRI.ArcGIS.GeoAnalyst.IRasterAnalysisEnvironment;
+            rasanaenv.SetCellSize(ESRI.ArcGIS.GeoAnalyst.esriRasterEnvSettingEnum.esriRasterEnvValue, ref dCell);
+            rasanaenv.SetExtent(ESRI.ArcGIS.GeoAnalyst.esriRasterEnvSettingEnum.esriRasterEnvValue, ref extend, ref o);
+            IGeoDataset pGeoDataSet;
+            try
+            {
+                pGeoDataSet = interpla.IDW((IGeoDataset)feades, 2, rasterrad, ref obj);
+            }
+            catch (System.Runtime.InteropServices.COMException) { MessageBox.Show("请选择点要素"); return; }
+            IRaster pOutRsater1 = (IRaster)pGeoDataSet;
+            IRasterLayer rasterLayer = new RasterLayerClass();
+            rasterLayer.CreateFromRaster(pOutRsater1);
+            rasterLayer.Name = "riskMap";
+            ClassifyRenderRaster(rasterLayer, 10);
+            this.axMapControlMain.AddLayer(rasterLayer, 0);
+            this.axMapControlMain.ActiveView.Refresh();
+        }
+        /// <summary>
+        /// 分层渲染
+        /// </summary>
+        /// <param name="pRasterLayer"></param>
+        /// <param name="ClassifyNum">最大10</param>
+        public void ClassifyRenderRaster(IRasterLayer pRasterLayer, int ClassifyNum)
+        {
+            IRasterClassifyColorRampRenderer pRClassRend = new RasterClassifyColorRampRenderer() as IRasterClassifyColorRampRenderer;
+            IRaster pRaster = pRasterLayer.Raster;
+            IRasterBandCollection pRBandCol = pRaster as IRasterBandCollection;
+            IRasterBand pRBand = pRBandCol.Item(0);
+            if (pRBand.Histogram == null)
+                pRBand.ComputeStatsAndHist();
+            pRClassRend.ClassCount = ClassifyNum;// NaturalBreaks
+            int[] breaks = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            IColor[] colors = GetColor();
+            IFillSymbol fillSymbol = new SimpleFillSymbol() as IFillSymbol;
+            for (int i = 0; i < pRClassRend.ClassCount; i++)
+            {
+                fillSymbol.Color = colors[i];
+                pRClassRend.set_Symbol(i, fillSymbol as ISymbol);
+                pRClassRend.set_Break(i, breaks[i]); ;
+            }
+            pRasterLayer.Renderer = pRClassRend as IRasterRenderer; //this
+        }
+        /// <summary>
+        /// 设置颜色
+        /// </summary>
+        /// <returns></returns>
+        private IColor[] GetColor()
+        {
+            IColor[] colors = new IColor[10];
+            colors[0] = new RgbColorClass() { Red = 56, Green = 168, Blue = 0 };
+            colors[1] = new RgbColorClass() { Red = 90, Green = 186, Blue = 0 };
+            colors[2] = new RgbColorClass() { Red = 131, Green = 207, Blue = 0 };
+            colors[3] = new RgbColorClass() { Red = 176, Green = 224, Blue = 0 };
+            colors[4] = new RgbColorClass() { Red = 228, Green = 245, Blue = 0 };
+            colors[5] = new RgbColorClass() { Red = 255, Green = 225, Blue = 0 };
+            colors[6] = new RgbColorClass() { Red = 255, Green = 170, Blue = 0 };
+            colors[7] = new RgbColorClass() { Red = 255, Green = 115, Blue = 0 };
+            colors[8] = new RgbColorClass() { Red = 255, Green = 55, Blue = 0 };
+            colors[9] = new RgbColorClass() { Red = 255, Green = 10, Blue = 0 };
+            return colors;
+        }
+
+        private void iDWToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IDW_Interpolation();
+        }
+
+        private void 自写IDW不推荐ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IFeatureLayer featureLayer = pGlobeLayer as IFeatureLayer;
+            try
+            {
+                FireAlarm fireAlarm = new FireAlarm(axMapControlMain, featureLayer);
+                fireAlarm.Show();
+            }
+            catch (NullReferenceException) { MessageBox.Show("请单击选择需要分析的图层！"); }
+        }
+
+        private void 绘制影响范围ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            string input = Microsoft.VisualBasic.Interaction.InputBox("矩形范围(m),double类型(>0)", "请输入影响范围", "100", -1, -1);
+            double range = 0;
+
+            try
+            {
+                range = double.Parse(input);
+            }
+            catch (FormatException) { MessageBox.Show("请正确输入范围"); return; }
+            if (range < 0)
+            { MessageBox.Show("请正确输入范围"); return; }
+            allowEffectHighlight = range;
+
+        }
+        private void GetNearFeature(IMapControlEvents2_OnMouseDownEvent e, AxMapControl axMapControl1)
+        {
+            IPoint clickedPoint = new PointClass();
+            clickedPoint.PutCoords(e.mapX, e.mapY);
+            IFeatureLayer pFeatureLayer = axMapControl1.get_Layer(0) as IFeatureLayer;
+            // 创建缓冲区
+            ITopologicalOperator topologicalOperator = clickedPoint as ITopologicalOperator;
+            IGeometry bufferGeometry = topologicalOperator.Buffer(allowEffectHighlight) as IGeometry;
+
+            // 创建空间过滤器
+            ISpatialFilter spatialFilter = new SpatialFilterClass();
+            spatialFilter.Geometry = bufferGeometry;
+            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains; // 在缓冲区内的要素
+
+            IFeatureSelection pFSelection = pFeatureLayer as IFeatureSelection;
+            if (pFSelection != null)
+            {
+                //根据空间过滤关系选择要素
+                pFSelection.SelectFeatures(spatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+                //刷新视图
+                axMapControl1.ActiveView.Refresh();
+            }
+        }
+
+        private void axMapControlMain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
+        {
+            if (e.button == 1)
+            {
+                if (allowEffectHighlight != -1)  //已开启影响范围绘制功能
+                    GetNearFeature(e, axMapControlMain);
+            }
+            else if (e.button == 2)
+            {
+                CancalHighlight();
+            }
+
+        }
+        /// <summary>
+        /// 取消高亮
+        /// </summary>
+        private void CancalHighlight()
+        {
+            if (pGlobeLayer != null)
+            {
+                IFeatureSelection pFSelection = pGlobeLayer as IFeatureSelection;
+                pFSelection.Clear();
+                axMapControlMain.ActiveView.Refresh();
+            }
+        }
+
+        private void 取消绘制ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allowEffectHighlight = -1;
+        }
+
+        private void 可燃性分析ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("请输入risk值[0-9]", "请输入风险值", "0", -1, -1);
+            int range;
+
+            try
+            {
+                range = int.Parse(input);
+            }
+            catch (FormatException) { MessageBox.Show("请正确输入风险值"); return; }
+            if (range < 0 && range > 9)
+            { MessageBox.Show("请正确输入风险值"); return; }
+
+            if (pGlobeLayer != null)
+            {
+                IFeatureSelection pFSelection = pGlobeLayer as IFeatureSelection;
+                IQueryFilter pQuery = new QueryFilterClass();   //添加筛选器
+                string whereClause = "risk =" + range;
+                pQuery.WhereClause = whereClause;  //添加条件
+                pFSelection.SelectFeatures(pQuery, esriSelectionResultEnum.esriSelectionResultNew, false);
+                axMapControlMain.ActiveView.Refresh(); //刷新
+            }
+            else
+            {
+                MessageBox.Show("请选择图层");
+            }
+        }
+        #endregion
     }
 
 
