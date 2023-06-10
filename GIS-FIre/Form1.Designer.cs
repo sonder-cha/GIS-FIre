@@ -35,6 +35,7 @@ namespace GIS_FIre
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开网络数据集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.保存SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,9 @@ namespace GIS_FIre
             this.自写IDW不推荐ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.绘制影响范围ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.取消绘制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -107,8 +110,17 @@ namespace GIS_FIre
             this.axToolbarControl1.Location = new System.Drawing.Point(0, 31);
             this.axToolbarControl1.Name = "axToolbarControl1";
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
-            this.axToolbarControl1.Size = new System.Drawing.Size(355, 28);
+            this.axToolbarControl1.Size = new System.Drawing.Size(358, 28);
             this.axToolbarControl1.TabIndex = 0;
+            // 
+            // axToolbarControl2
+            // 
+            this.axToolbarControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.axToolbarControl2.Location = new System.Drawing.Point(912, 31);
+            this.axToolbarControl2.Name = "axToolbarControl2";
+            this.axToolbarControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl2.OcxState")));
+            this.axToolbarControl2.Size = new System.Drawing.Size(208, 28);
+            this.axToolbarControl2.TabIndex = 3;
             // 
             // menuStrip1
             // 
@@ -129,6 +141,7 @@ namespace GIS_FIre
             // 
             this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.打开OToolStripMenuItem,
+            this.打开网络数据集ToolStripMenuItem,
             this.toolStripSeparator1,
             this.保存SToolStripMenuItem,
             this.另存为ToolStripMenuItem,
@@ -147,6 +160,13 @@ namespace GIS_FIre
             this.打开OToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.打开OToolStripMenuItem.Text = "打开(O)...";
             this.打开OToolStripMenuItem.Click += new System.EventHandler(this.打开OToolStripMenuItem_Click);
+            // 
+            // 打开网络数据集ToolStripMenuItem
+            // 
+            this.打开网络数据集ToolStripMenuItem.Name = "打开网络数据集ToolStripMenuItem";
+            this.打开网络数据集ToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.打开网络数据集ToolStripMenuItem.Text = "打开网络数据集";
+            this.打开网络数据集ToolStripMenuItem.Click += new System.EventHandler(this.打开网络数据集ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -271,14 +291,16 @@ namespace GIS_FIre
             // 逃生路线规划ToolStripMenuItem
             // 
             this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
-            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
+            this.逃生路线规划ToolStripMenuItem.Click += new System.EventHandler(this.逃生路线规划ToolStripMenuItem_Click);
             // 
             // 消防救援规划ToolStripMenuItem
             // 
             this.消防救援规划ToolStripMenuItem.Name = "消防救援规划ToolStripMenuItem";
-            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.消防救援规划ToolStripMenuItem.Text = "消防救援规划";
+            this.消防救援规划ToolStripMenuItem.Click += new System.EventHandler(this.消防救援规划ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -369,6 +391,7 @@ namespace GIS_FIre
             this.axMapControlMain.TabIndex = 0;
             this.axMapControlMain.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this.axMapControlMain_OnExtentUpdated);
             this.axMapControlMain.OnMapReplaced += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMapReplacedEventHandler(this.axMapControlMain_OnMapReplaced);
+            this.axMapControlMain.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
             // 
             // tabPage2
             // 
@@ -530,12 +553,14 @@ namespace GIS_FIre
             this.Controls.Add(this.axToolbarControl2);
             this.Controls.Add(this.axLicenseControl2);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.axToolbarControl2);
             this.Controls.Add(this.axToolbarControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -612,6 +637,8 @@ namespace GIS_FIre
         private System.Windows.Forms.ToolStripMenuItem 自写IDW不推荐ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 绘制影响范围ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 取消绘制ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开网络数据集ToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
