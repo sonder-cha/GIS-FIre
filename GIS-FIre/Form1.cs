@@ -447,7 +447,13 @@ namespace GIS_FIre
 
         }
 
-
-
+        private void 消防救援规划ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CoorPoint = null;
+            CoorPoint = new string[50];
+            routeForm = new routeForm(mainForm);
+            SendMsgEvent += routeForm.MainFormTxtChanged;
+            routeForm.Show();
+        }
     }
 }
