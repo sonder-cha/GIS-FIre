@@ -259,6 +259,8 @@ namespace GIS_FIre
         }
         #endregion
 
+        /* 查昊天 6.5 */
+        #region 鹰眼地图
         private void axMapControlMain_OnMapReplaced(object sender, IMapControlEvents2_OnMapReplacedEvent e)
         {
             //mapDocumentName = axMapControlMain.DocumentFilename;
@@ -282,7 +284,6 @@ namespace GIS_FIre
             axMapControlSmall.Extent = axMapControlMain.FullExtent;
             axMapControlSmall.Refresh();
         }
-
         private void axMapControlMain_OnExtentUpdated(object sender, IMapControlEvents2_OnExtentUpdatedEvent e)
         {
             IMap pmap = axMapControlMain.Map;
@@ -331,7 +332,6 @@ namespace GIS_FIre
             graphicscontainer.AddElement(plement, 0);
             activewer.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
         }
-
         public static string pMouseOperator = null;
         private void button1_Click(object sender, EventArgs e)
         {
@@ -339,6 +339,7 @@ namespace GIS_FIre
             //bufferSettings.Show();
 
         }
+        #endregion
 
         /* 虞世宁 6.9 */
         #region IDW与影响范围
