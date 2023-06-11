@@ -74,6 +74,7 @@ namespace GIS_FIre
             this.打开属性表MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至图层MenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.缓冲区生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -214,7 +215,8 @@ namespace GIS_FIre
             this.风险评估ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.火灾预警ToolStripMenuItem,
             this.可燃性分析ToolStripMenuItem,
-            this.影响范围ToolStripMenuItem});
+            this.影响范围ToolStripMenuItem,
+            this.缓冲区生成ToolStripMenuItem});
             this.风险评估ToolStripMenuItem.Name = "风险评估ToolStripMenuItem";
             this.风险评估ToolStripMenuItem.Size = new System.Drawing.Size(113, 24);
             this.风险评估ToolStripMenuItem.Text = "火灾风险评估";
@@ -222,19 +224,19 @@ namespace GIS_FIre
             // 火灾预警ToolStripMenuItem
             // 
             this.火灾预警ToolStripMenuItem.Name = "火灾预警ToolStripMenuItem";
-            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.火灾预警ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.火灾预警ToolStripMenuItem.Text = "火灾预警";
             // 
             // 可燃性分析ToolStripMenuItem
             // 
             this.可燃性分析ToolStripMenuItem.Name = "可燃性分析ToolStripMenuItem";
-            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.可燃性分析ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.可燃性分析ToolStripMenuItem.Text = "可燃性分析";
             // 
             // 影响范围ToolStripMenuItem
             // 
             this.影响范围ToolStripMenuItem.Name = "影响范围ToolStripMenuItem";
-            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.影响范围ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.影响范围ToolStripMenuItem.Text = "影响范围";
             // 
             // 火灾模拟ToolStripMenuItem
@@ -277,14 +279,14 @@ namespace GIS_FIre
             // 逃生路线规划ToolStripMenuItem
             // 
             this.逃生路线规划ToolStripMenuItem.Name = "逃生路线规划ToolStripMenuItem";
-            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.逃生路线规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.逃生路线规划ToolStripMenuItem.Text = "逃生路线规划";
             this.逃生路线规划ToolStripMenuItem.Click += new System.EventHandler(this.逃生路线规划ToolStripMenuItem_Click);
             // 
             // 消防救援规划ToolStripMenuItem
             // 
             this.消防救援规划ToolStripMenuItem.Name = "消防救援规划ToolStripMenuItem";
-            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.消防救援规划ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.消防救援规划ToolStripMenuItem.Text = "消防救援规划";
             this.消防救援规划ToolStripMenuItem.Click += new System.EventHandler(this.消防救援规划ToolStripMenuItem_Click);
             // 
@@ -471,6 +473,13 @@ namespace GIS_FIre
             this.缩放至图层MenuItem.Text = "缩放至图层";
             this.缩放至图层MenuItem.Click += new System.EventHandler(this.缩放至图层MenuItem_Click);
             // 
+            // 缓冲区生成ToolStripMenuItem
+            // 
+            this.缓冲区生成ToolStripMenuItem.Name = "缓冲区生成ToolStripMenuItem";
+            this.缓冲区生成ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.缓冲区生成ToolStripMenuItem.Text = "缓冲区生成";
+            this.缓冲区生成ToolStripMenuItem.Click += new System.EventHandler(this.缓冲区生成ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -556,6 +565,7 @@ namespace GIS_FIre
         private System.Windows.Forms.GroupBox gbx_attribution;
         private System.Windows.Forms.ToolStripMenuItem 打开网络数据集ToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ToolStripMenuItem 缓冲区生成ToolStripMenuItem;
     }
 }
 

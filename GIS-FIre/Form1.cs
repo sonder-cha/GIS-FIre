@@ -455,5 +455,12 @@ namespace GIS_FIre
             SendMsgEvent += routeForm.MainFormTxtChanged;
             routeForm.Show();
         }
+
+        private void 缓冲区生成ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Buffer BF = new Buffer();
+            BF.mapControl = this.axMapControlMain;
+            BF.ShowDialog();
+        }
     }
 }
