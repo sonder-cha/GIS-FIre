@@ -46,11 +46,28 @@ namespace GIS_FIre
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
             InitializeComponent();
             axTOCControl1.SetBuddyControl(axMapControlMain);
+            IPolygon pAreaPolygon = new PolygonClass();
+            pAreaPointCol = (IPointCollection)pAreaPolygon;
         }
 
         private IActiveView m_ipActiveView;
         public event EventHandler SendMsgEvent;//定义事件
         public string[] CoorPoint = null;//存储路径分析坐标位置
+
+
+        private FormMeasureResult frmMeasureResult = null;
+        private string xx, yy;                               //暂时性记录坐标信息
+        private INewLineFeedback pNewLineFeedback;           //追踪线对象
+        private INewPolygonFeedback pNewPolygonFeedback;     //追踪面对象
+        private IPoint pPointPt = null;                      //鼠标点击点
+        private double dSegmentLength = 0;                   //片段距离
+        private double dToltalLength = 0;                    //量测总长度
+        private string sMapUnits = "未知单位";               //地图单位变量
+        private IPoint pMovePt = null;                       //鼠标移动时的当前点
+        private object missing = Type.Missing;
+
+        private IPointCollection pAreaPointCol;
+        //private IPointCollection pAreaPointCol = new MultipointClass();  //面积量算时画的点进行存储
 
 
         private string mapDocumentName = string.Empty;
@@ -353,7 +370,7 @@ namespace GIS_FIre
         public static string pMouseOperator = null;
         private void button1_Click(object sender, EventArgs e)
         {
-            //BufferSettings bufferSettings = new BufferSettings(axMapControlMain.Map, player, axMapControl1);
+            //BufferSettings bufferSettings = new BufferSettings(axMapControlMain.Map, player, axMapControlMain);
             //bufferSettings.Show();
 
         }
@@ -474,11 +491,11 @@ namespace GIS_FIre
             allowEffectHighlight = range;
 
         }
-        private void GetNearFeature(IMapControlEvents2_OnMouseDownEvent e, AxMapControl axMapControl1)
+        private void GetNearFeature(IMapControlEvents2_OnMouseDownEvent e, AxMapControl axMapControlMain)
         {
             IPoint clickedPoint = new PointClass();
             clickedPoint.PutCoords(e.mapX, e.mapY);
-            IFeatureLayer pFeatureLayer = axMapControl1.get_Layer(0) as IFeatureLayer;
+            IFeatureLayer pFeatureLayer = axMapControlMain.get_Layer(0) as IFeatureLayer;
             // 创建缓冲区
             ITopologicalOperator topologicalOperator = clickedPoint as ITopologicalOperator;
             IGeometry bufferGeometry = topologicalOperator.Buffer(allowEffectHighlight) as IGeometry;
@@ -494,23 +511,10 @@ namespace GIS_FIre
                 //根据空间过滤关系选择要素
                 pFSelection.SelectFeatures(spatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
                 //刷新视图
-                axMapControl1.ActiveView.Refresh();
+                axMapControlMain.ActiveView.Refresh();
             }
         }
 
-        private void axMapControlMain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
-        {
-            if (e.button == 1)
-            {
-                if (allowEffectHighlight != -1)  //已开启影响范围绘制功能
-                    GetNearFeature(e, axMapControlMain);
-            }
-            else if (e.button == 2)
-            {
-                CancalHighlight();
-            }
-
-        }
         /// <summary>
         /// 取消高亮
         /// </summary>
@@ -557,10 +561,10 @@ namespace GIS_FIre
             }
         }
         #endregion
-    
+        
 
-
-
+        /* 曹之怿 6.10 */
+        #region 路径规划
         private void 逃生路线规划ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CoorPoint = null;
@@ -574,7 +578,6 @@ namespace GIS_FIre
 
         // <summary>
         // 获取距离鼠标点击最近的点
-        //曹之怿
         // </summary>
         // <param name="featureClass"></param>
         // <param name="PointCollection"></param>
@@ -598,7 +601,6 @@ namespace GIS_FIre
 
         /// <summary>
         /// 传递主窗体axMapControlMain控件
-        ///曹之怿
         public ESRI.ArcGIS.Controls.AxMapControl getMainAxMapControl()
         {
             return axMapControlMain;
@@ -606,42 +608,7 @@ namespace GIS_FIre
 
         /// <summary>
         /// 对3D控件pan功能鼠标状态的记录，完成3D与2D的联动平移，获取路径分析起点、终点位置坐标
-        // 曹之怿
-        private void axMapControl1_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
-        {
-            global.MapMouseDown = 1;
-            global.mapPoint.PutCoords(e.x, e.y);
 
-            if (global.networkAnalysis == true)
-            {
-
-
-                //this.Cursor = new System.Windows.Forms.Cursor("..\\..\\Resources\\locate.cur");
-                IPointCollection points;//输入点集合
-                IPoint point;
-                points = new MultipointClass();
-                point = axMapControlMain.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
-                object o = Type.Missing;
-                points.AddPoint(point, ref o, ref o);
-
-                CreateFeature(global.inputFClass, points);//或者用鼠标点击最近点
-
-                //把最近的点显示出来
-                IElement element;
-                ITextElement textelement = new TextElementClass();
-                element = textelement as IElement;
-                ITextSymbol textSymbol = new TextSymbol();
-
-                textelement.Symbol = textSymbol;
-                global.clickedcount++;
-                textelement.Text = global.clickedcount.ToString();
-                element.Geometry = m_ipActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
-                global.PGC.AddElement(element, 0);
-                m_ipActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
-                CoorPoint[global.clickedcount - 1] = e.x.ToString() + " , " + e.y.ToString();
-                SendMsgEvent(this, new MyEventArgs() { Text = CoorPoint });
-            }
-        }
 
         private void 打开网络数据集ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -693,8 +660,6 @@ namespace GIS_FIre
 
         /// <summary>
         /// 打开工作空间
-        // 曹之怿
-        /// </summary>
         // <param name="strGDBName"></param>
         // <returns></returns>
         public IWorkspace OpenWorkspace(string strGDBName)
@@ -705,7 +670,6 @@ namespace GIS_FIre
         }
         /// <summary>
         /// 打开网络数据集
-        /// 曹之怿
         /// </summary>
         // <param name="networkDatasetWorkspace"></param>
         // <param name="networkDatasetName"></param>
@@ -757,7 +721,6 @@ namespace GIS_FIre
 
         /// <summary>
         /// 创建网络分析上下文
-        /// 曹之怿
         public INAContext CreateSolverContext(INetworkDataset networkDataset)
         {
             //获取创建网络分析上下文所需的IDENETWORKDATASET类型参数
@@ -771,8 +734,6 @@ namespace GIS_FIre
 
         /// <summary>
         /// 得到创建网络分析上下文所需的IDENETWORKDATASET类型参数
-        /// 曹之怿
-
         public IDENetworkDataset GetDENetworkDataset(INetworkDataset networkDataset)
         {
             //将网络分析数据集QI添加到DATASETCOMPOENT
@@ -790,6 +751,536 @@ namespace GIS_FIre
             routeForm = new routeForm(mainForm);
             SendMsgEvent += routeForm.MainFormTxtChanged;
             routeForm.Show();
+        }
+        #endregion
+
+        ///
+        private void axMapControlMain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
+        {
+            global.MapMouseDown = 1;
+            global.mapPoint.PutCoords(e.x, e.y);
+
+            //屏幕坐标点转化为地图坐标点
+            pPointPt = (axMapControlMain.Map as IActiveView).ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
+
+            if (global.networkAnalysis == true)
+            {
+
+
+                //this.Cursor = new System.Windows.Forms.Cursor("..\\..\\Resources\\locate.cur");
+                IPointCollection points;//输入点集合
+                IPoint point;
+                points = new MultipointClass();
+                point = axMapControlMain.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
+                object o = Type.Missing;
+                points.AddPoint(point, ref o, ref o);
+
+                CreateFeature(global.inputFClass, points);//或者用鼠标点击最近点
+
+                //把最近的点显示出来
+                IElement element;
+                ITextElement textelement = new TextElementClass();
+                element = textelement as IElement;
+                ITextSymbol textSymbol = new TextSymbol();
+
+                textelement.Symbol = textSymbol;
+                global.clickedcount++;
+                textelement.Text = global.clickedcount.ToString();
+                element.Geometry = m_ipActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
+                global.PGC.AddElement(element, 0);
+                m_ipActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+                CoorPoint[global.clickedcount - 1] = e.x.ToString() + " , " + e.y.ToString();
+                SendMsgEvent(this, new MyEventArgs() { Text = CoorPoint });
+            }
+            
+            //左击显示坐标
+            if (e.button == 1)
+            {
+                //MessageBox.Show(drawPoint+"      "+drawLine+"    "+drawPolygon);
+                IActiveView pActiveView = axMapControlMain.ActiveView;
+                IEnvelope pEnvelope = new EnvelopeClass();
+
+                switch (pMouseOperator)
+                {                    
+                    #region 距离量测
+                    case "MeasureLength":
+                        //判断追踪对象是否为空，若为空则进行实例化并设置当前鼠标点的起始点
+                        if (pNewLineFeedback == null)
+                        {
+                            //实例化追踪线对象 
+                            pNewLineFeedback = new NewLineFeedbackClass();
+                            pNewLineFeedback.Display = (axMapControlMain.Map as IActiveView).ScreenDisplay;
+                            //设置起点，开始动态线绘制
+                            pNewLineFeedback.Start(pPointPt);
+                            dToltalLength = 0;
+                        }
+                        else //如果追踪对象不为空，则添加当前鼠标点
+                        {
+                            pNewLineFeedback.AddPoint(pPointPt);
+                        }
+
+                        if (dSegmentLength != 0)
+                        {
+                            dToltalLength = dToltalLength + dSegmentLength;
+                        }
+                        break;
+                    #endregion
+
+                    #region 面积量算
+                    case "MeasureArea":
+                        if (pNewPolygonFeedback == null)
+                        {
+                            //实例化追踪面对象
+                            pNewPolygonFeedback = new NewPolygonFeedback();
+                            pNewPolygonFeedback.Display = (axMapControlMain.Map as IActiveView).ScreenDisplay;
+                            pAreaPointCol.RemovePoints(0, pAreaPointCol.PointCount);
+                            //开始绘制多边形
+                            pNewPolygonFeedback.Start(pPointPt);
+                            pAreaPointCol.AddPoint(pPointPt, ref missing, ref missing);
+                        }
+                        else
+                        {
+                            pNewPolygonFeedback.AddPoint(pPointPt);
+                            pAreaPointCol.AddPoint(pPointPt, ref missing, ref missing);
+                        }
+                        break;
+                    #endregion
+
+                    /*
+                    #region draw
+                    case "drawPoint":
+                        IPoint pPoint = new PointClass();
+                        pPoint.PutCoords(e.mapX, e.mapY);
+                        IMarkerElement pMarkElement = new MarkerElementClass();
+                        ISimpleMarkerSymbol pMarkerSymbol = new SimpleMarkerSymbolClass();
+                        pMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSX;
+                        pMarkerSymbol.Color = GetRGB(200, 0, 0);
+                        pMarkerSymbol.Angle = 30;
+                        pMarkerSymbol.Size = 5;
+                        pMarkerSymbol.Outline = true;
+                        pMarkerSymbol.OutlineSize = 1;
+                        pMarkElement.Symbol = pMarkerSymbol;
+
+                        IElement pElementc = pMarkElement as IElement;
+                        pElementc.Geometry = pPoint;
+                        pGraphicsContainer = axMapControlMain.Map as IGraphicsContainer;
+                        pGraphicsContainer.AddElement(pElementc, 0);
+                        pActiveView.Refresh();
+
+                        break;
+                    case "drawLine":
+                        IGeometry polyline;
+                        polyline = axMapControlMain.TrackLine();
+                        ILineElement pLineElement;
+                        pLineElement = new LineElementClass();
+                        IElement pElement;
+                        pElement = pLineElement as IElement;
+                        pElement.Geometry = polyline;
+                        pGraphicsContainer = axMapControlMain.Map as IGraphicsContainer;
+                        //pGraphicsContainer = pMap as IGraphicsContainer;
+                        pGraphicsContainer.AddElement(pElement, 0);
+                        axMapControlMain.ActiveView.Refresh();
+                        // pActiveView.Refresh();
+                        break;
+                    case "drawPolygon":
+                        IGeometry Polygon;
+                        Polygon = axMapControlMain.TrackPolygon();
+                        IPolygonElement PolygonElement;
+                        PolygonElement = new PolygonElementClass();
+                        IElement pElement1;
+                        pElement1 = PolygonElement as IElement;
+                        pElement1.Geometry = Polygon;
+                        pGraphicsContainer = axMapControlMain.Map as IGraphicsContainer;
+                        pGraphicsContainer.AddElement((IElement)PolygonElement, 0);
+                        pActiveView.Refresh();
+                        break;
+                    #endregion
+
+                    #region drawPolygons
+                    case "drawPolygons":
+
+                        DoQueryIndex = getFeatureTypeByName(CURRENT_LAYER_NAME);
+                        if (DoQueryIndex == 1)
+                        {
+                            IFeatureLayer pFeatLayer = axMapControlMain.get_Layer(getIndexByName(CURRENT_LAYER_NAME))
+                                  as IFeatureLayer;
+                            IPoint point = new PointClass();
+                            point.PutCoords(e.mapX, e.mapY);
+
+                            ISpatialFilter spatialFilter = new SpatialFilterClass();
+                            spatialFilter.Geometry = point;
+                            spatialFilter.SpatialRel = ESRI.ArcGIS.Geodatabase.esriSpatialRelEnum.esriSpatialRelIntersects;
+                            IFeatureCursor featureCursor = pFeatLayer.Search(spatialFilter, false);
+
+                            IFeature pFeature1 = featureCursor.NextFeature();
+
+                            while (pFeature1 != null)
+                            {
+                                axMapControlMain.FlashShape(pFeature1.Shape);
+                                pFeature1 = featureCursor.NextFeature();
+                            }
+
+
+                        }
+                        else if (DoQueryIndex == 2)
+                        {
+                        }
+
+                        else if (DoQueryIndex == 3)
+                        {
+
+                            IPoint point = new PointClass();
+                            point.PutCoords(e.mapX, e.mapY);
+                            pointcollection.AddPoints(1, ref point);
+                            if (pointcollection.PointCount > 2)
+                            {
+                                DrawPolygon(pointcollection, axMapControlMain);
+                            }
+                        }
+                        break;
+                    #endregion
+
+                    case "spaticalQuery":
+
+                        break;
+
+                    #region selectPolygon
+                    case "selectPolygon":
+                        //实例化一个点
+                        IPoint pPoint1 = new PointClass();
+                        //以该点作拓扑算子
+                        ITopologicalOperator pTopologicalOperator = pPoint1 as ITopologicalOperator;
+                        //将点击的位置坐标赋予pPoint
+                        pPoint1.PutCoords(e.mapX, e.mapY);
+                        //以缓冲半径为0进行缓冲  得到一个点
+                        IGeometry pGeometry = pTopologicalOperator.Buffer(0);
+                        //以该点进行要素选择（只能选中面状要素，点和线无法选中）
+                        axMapControlMain.Map.SelectByShape(pGeometry, null, false);
+                        //刷新视图
+                        axMapControlMain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
+
+                        // 获取选择集
+                        ISelection pSelection = axMapControlMain.Map.FeatureSelection;
+                        // 打开属性标签
+                        IEnumFeatureSetup pEnumFeatureSetup = pSelection as IEnumFeatureSetup;
+                        pEnumFeatureSetup.AllFields = true;
+                        // 获取要素
+                        IEnumFeature pEnumFeature = pSelection as IEnumFeature;
+                        IFeature pFeature = pEnumFeature.Next();
+
+
+                        while (pFeature != null)
+                        {
+                            double area = 0;
+                            double mu = 0;
+                            if (pFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolygon)
+                            {
+                                //计算面积
+                                IArea pArea = pFeature.Shape as IArea;
+                                area = area + pArea.Area;//得到的面积单位是平方米
+                                mu = area * 0.0015;//转换为亩
+                            }
+                            break;
+                        }
+                        break;
+                    #endregion
+
+
+                    #region 选择要素
+                    case "SelFeature":
+                        //MessageBox.Show("gggggggggggg");
+                        IEnvelope pEnv = axMapControlMain.TrackRectangle();
+                        IGeometry pGeo = pEnv as IGeometry;
+                        //矩形框若为空，即为点选时，对点范围进行扩展
+                        if (pEnv.IsEmpty == true)
+                        {
+                            tagRECT r;
+                            r.left = e.x - 5;
+                            r.top = e.y - 5;
+                            r.right = e.x + 5;
+                            r.bottom = e.y + 5;
+                            pActiveView.ScreenDisplay.DisplayTransformation.TransformRect(pEnv, ref r, 4);
+                            pEnv.SpatialReference = pActiveView.FocusMap.SpatialReference;
+                        }
+                        pGeo = pEnv as IGeometry;
+                        axMapControlMain.Map.SelectByShape(pGeo, null, false);
+                        axMapControlMain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
+                        break;
+                    #endregion
+
+                    #region addText
+                    case "addText":
+                        IGraphicsContainer pGraphicsContainer2 = axMapControlMain.Map as IGraphicsContainer;
+                        ITextElement pTextEle = new TextElementClass();
+                        InputText inputText = new InputText();
+                        pTextEle.Text = InputText.inputText;
+                        ITextSymbol pTextSymbol = new TextSymbolClass();
+                        pTextSymbol.Size = 30;
+                        pTextSymbol.Color = GetRGB(0, 0, 0);
+                        pTextEle.Symbol = pTextSymbol;
+                        IPoint pPoint2 = new PointClass();
+                        pPoint2.PutCoords(e.mapX, e.mapY);
+                        IElement pElement2 = pTextEle as IElement;
+                        pElement2.Geometry = pPoint2;
+                        pGraphicsContainer2.AddElement(pElement2, 0);
+                        axMapControlMain.Refresh(esriViewDrawPhase.esriViewGraphics, null, null);
+                        pMouseOperator = "";
+                        break;
+                    #endregion
+                    */
+                    default:
+                        //改变地图控件显示范围为当前拖曳的区域
+                        axMapControlMain.Extent = axMapControlMain.TrackRectangle();
+                        break;
+
+                }
+            }
+            else if (e.button == 2)
+            {
+
+                contextMenuStrip2.Show(System.Windows.Forms.Control.MousePosition.X,
+                    System.Windows.Forms.Control.MousePosition.Y);
+                xx = e.mapX.ToString();
+                yy = e.mapY.ToString();
+            }
+        }
+        
+
+        // 测量结果窗口关闭响应事件
+        private void frmMeasureResult_frmClosed()
+        {
+            //清空线对象
+            if (pNewLineFeedback != null)
+            {
+                pNewLineFeedback.Stop();
+                pNewLineFeedback = null;
+            }
+            //清空面对象 
+            if (pNewPolygonFeedback != null)
+            {
+                pNewPolygonFeedback.Stop();
+                pNewPolygonFeedback = null;
+                pAreaPointCol.RemovePoints(0, pAreaPointCol.PointCount);//清空点集中所有的点
+
+            }
+            //清空量算的线、面对象
+            axMapControlMain.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewForeground, null, null);
+            //结束量算功能
+            pMouseOperator = string.Empty;
+            axMapControlMain.MousePointer = esriControlsMousePointer.esriPointerDefault;
+
+        }
+
+        private void 距离测量ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            axMapControlMain.CurrentTool = null;
+            pMouseOperator = "MeasureLength";
+
+            axMapControlMain.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            if (frmMeasureResult == null || frmMeasureResult.IsDisposed)
+            {
+                frmMeasureResult = new FormMeasureResult();
+                frmMeasureResult.frmClosed += new FormMeasureResult.FormClosedEventHandler(frmMeasureResult_frmClosed);
+                frmMeasureResult.Text = "距离测量：";
+                frmMeasureResult.Show();
+            }
+            else
+            {
+                frmMeasureResult.Activate();
+            }
+        }
+        private void 面积测量ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            axMapControlMain.CurrentTool = null;
+            pMouseOperator = "MeasureArea";
+            axMapControlMain.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            if (frmMeasureResult == null || frmMeasureResult.IsDisposed)
+            {
+                frmMeasureResult = new FormMeasureResult();
+
+                frmMeasureResult.frmClosed += new FormMeasureResult.FormClosedEventHandler(frmMeasureResult_frmClosed);
+                frmMeasureResult.lblMeasureResult.Text = "";
+                frmMeasureResult.Text = "面积量测";
+                frmMeasureResult.Show();
+            }
+            else
+            {
+                frmMeasureResult.Activate();
+            }
+        }
+
+        // 获取地图单位
+        private string GetMapUnit(esriUnits _esriMapUnit)
+        {
+            string sMapUnits = string.Empty;
+            switch (_esriMapUnit)
+            {
+                case esriUnits.esriCentimeters:
+                    sMapUnits = "厘米";
+                    break;
+                case esriUnits.esriDecimalDegrees:
+                    sMapUnits = "十进制";
+                    break;
+                case esriUnits.esriDecimeters:
+                    sMapUnits = "分米";
+                    break;
+                case esriUnits.esriFeet:
+                    sMapUnits = "尺";
+                    break;
+                case esriUnits.esriInches:
+                    sMapUnits = "英寸";
+                    break;
+                case esriUnits.esriKilometers:
+                    sMapUnits = "千米";
+                    break;
+                case esriUnits.esriMeters:
+                    sMapUnits = "米";
+                    break;
+                case esriUnits.esriMiles:
+                    sMapUnits = "英里";
+                    break;
+                case esriUnits.esriMillimeters:
+                    sMapUnits = "毫米";
+                    break;
+                case esriUnits.esriNauticalMiles:
+                    sMapUnits = "海里";
+                    break;
+                case esriUnits.esriPoints:
+                    sMapUnits = "点";
+                    break;
+                case esriUnits.esriUnitsLast:
+                    sMapUnits = "UnitsLast";
+                    break;
+                case esriUnits.esriUnknownUnits:
+                    sMapUnits = "未知单位";
+                    break;
+                case esriUnits.esriYards:
+                    sMapUnits = "码";
+                    break;
+                default:
+                    break;
+            }
+            return sMapUnits;
+        }
+
+        // 获取坐标信息
+        private void 获取坐标信息ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("坐标X为：" + xx + "      坐标Y为：" + yy, "提示，如果原数据未定义坐标系，那么这个提示框显示的坐标有误");
+        }
+
+        // 点击完成退出当前操作
+        private void 完成ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pMouseOperator != "SelFeature")
+            {
+                pMouseOperator = null;
+            }
+            //结束线段测量功能
+            if (pNewLineFeedback != null)
+            {
+                pNewLineFeedback.Stop();
+                pMouseOperator = null;
+
+            }
+            //结束面积测量
+            if (pNewPolygonFeedback != null)
+            {
+                pNewPolygonFeedback.Stop();
+                pMouseOperator = null;
+            }
+        }
+
+        // 
+        private void axMapControlMain_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
+        {
+            sMapUnits = GetMapUnit(axMapControlMain.Map.MapUnits);
+            pMovePt = (axMapControlMain.Map as IActiveView).ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
+
+            if (pMouseOperator == "MeasureLength")
+            {
+                if (pNewLineFeedback != null)
+                {
+                    pNewLineFeedback.MoveTo(pMovePt);
+                }
+
+
+                double deltax = 0;//两点之间x差值
+                double deltay = 0;//两点之间y差值
+
+                if ((pPointPt != null) && (pNewLineFeedback != null))
+                {
+                    deltax = pMovePt.X - pPointPt.X;
+                    deltay = pMovePt.Y - pPointPt.Y;
+                    dSegmentLength = Math.Round(Math.Sqrt((deltax * deltax) + (deltay * deltay)), 3);
+                    dToltalLength = dToltalLength + dSegmentLength;
+                    if (frmMeasureResult != null)
+                    {
+                        frmMeasureResult.lblMeasureResult.Text = String.Format(
+                            "当前线段长度：{0:.###}{1}\r\n总长度为：    {2:.###}{1}",
+                            dSegmentLength, sMapUnits, dToltalLength);
+                        dToltalLength = dToltalLength - dSegmentLength; //鼠标移动到新点重新开始计算
+                    }
+                    frmMeasureResult.frmClosed += new FormMeasureResult.FormClosedEventHandler(frmMeasureResult_frmClosed);
+                }
+            }
+
+            // 面积量算
+            if (pMouseOperator == "MeasureArea")
+            {
+                if (pNewPolygonFeedback != null)
+                {
+                    pNewPolygonFeedback.MoveTo(pMovePt);
+                }
+
+                IPointCollection pPointCol = new Polygon();
+                IPolygon pPolygon = new PolygonClass();
+                IGeometry pGeo = null;
+
+                ITopologicalOperator pTopo = null;
+                for (int i = 0; i <= pAreaPointCol.PointCount - 1; i++)
+                {
+                    pPointCol.AddPoint(pAreaPointCol.get_Point(i), ref missing, ref missing);
+                }
+                pPointCol.AddPoint(pMovePt, ref missing, ref missing);
+
+                if (pPointCol.PointCount < 3) return;
+                pPolygon = pPointCol as IPolygon;
+
+                if ((pPolygon != null))
+                {
+                    pPolygon.Close();
+                    pGeo = pPolygon as IGeometry;
+                    pTopo = pGeo as ITopologicalOperator;
+                    //使几何图形的拓扑正确
+                    pTopo.Simplify();
+                    pGeo.Project(axMapControlMain.Map.SpatialReference);
+                    IArea pArea = pGeo as IArea;
+
+                    frmMeasureResult.lblMeasureResult.Text = String.Format(
+                        "总面积为：{0:.####}平方{1}\r\n总长度为：{2:.####}{1}",
+                        pArea.Area, sMapUnits, pPolygon.Length);
+                    pPolygon = null;
+                }
+
+
+            }
+        }
+
+        private void 影响范围ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 可燃性分析ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 全屏显示ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            axMapControlMain.Extent = axMapControlMain.FullExtent;
+
         }
     }
 }
