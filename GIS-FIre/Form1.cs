@@ -754,6 +754,16 @@ namespace GIS_FIre
         }
         #endregion
 
+
+        /* 李明哲 6.11 */
+        # region 缓冲区建立
+        private void 缓冲区建立ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Buffer BF = new Buffer();
+            BF.mapControl = this.axMapControlMain;
+            BF.ShowDialog();
+        }
+        #endregion
         ///
         private void axMapControlMain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
