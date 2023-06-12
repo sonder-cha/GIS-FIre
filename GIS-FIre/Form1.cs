@@ -32,15 +32,6 @@ namespace GIS_FIre
 {
     public partial class Form1 : Form
     {
-        public static Form1 mainForm;
-        public routeForm routeForm;
-
-        private ILayer pGlobeLayer = null;
-        /// <summary>
-        /// 用于影响范围的OnmouseDown判断
-        /// -1表示不进行绘制
-        /// </summary>
-        private double allowEffectHighlight = -1;
         public Form1()
         {
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
@@ -53,8 +44,12 @@ namespace GIS_FIre
         private IActiveView m_ipActiveView;
         public event EventHandler SendMsgEvent;//定义事件
         public string[] CoorPoint = null;//存储路径分析坐标位置
+        public static Form1 mainForm;
+        public routeForm routeForm;
+        private ILayer pGlobeLayer = null;
+        private double allowEffectHighlight = -1;//用于影响范围的OnmouseDown判断,-1表示不进行绘制
 
-
+        # region 测量变量
         private FormMeasureResult frmMeasureResult = null;
         private string xx, yy;                               //暂时性记录坐标信息
         private INewLineFeedback pNewLineFeedback;           //追踪线对象
@@ -65,15 +60,14 @@ namespace GIS_FIre
         private string sMapUnits = "未知单位";               //地图单位变量
         private IPoint pMovePt = null;                       //鼠标移动时的当前点
         private object missing = Type.Missing;
-
         private IPointCollection pAreaPointCol;
         //private IPointCollection pAreaPointCol = new MultipointClass();  //面积量算时画的点进行存储
-
+        #endregion
 
         private string mapDocumentName = string.Empty;
 
         /* 查昊天 5.26 */
-        #region 功能栏-文件
+        #region 功能栏
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //ESRI.ArcGIS.SystemUI.ICommand pCommand;
@@ -764,7 +758,9 @@ namespace GIS_FIre
             BF.ShowDialog();
         }
         #endregion
-        ///
+
+        /* 查昊天 6.11 */
+        # region 测量，地图右键菜单
         private void axMapControlMain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
             global.MapMouseDown = 1;
@@ -1054,7 +1050,6 @@ namespace GIS_FIre
                 yy = e.mapY.ToString();
             }
         }
-        
 
         // 测量结果窗口关闭响应事件
         private void frmMeasureResult_frmClosed()
@@ -1292,5 +1287,6 @@ namespace GIS_FIre
             axMapControlMain.Extent = axMapControlMain.FullExtent;
 
         }
+        #endregion
     }
 }
