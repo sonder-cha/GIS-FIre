@@ -527,7 +527,7 @@ namespace GIS_FIre
             allowEffectHighlight = -1;
         }
 
-        private void 可燃性分析ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 可燃性分析ToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox("请输入risk值[0-9]", "请输入风险值", "0", -1, -1);
             int range;
@@ -1273,11 +1273,6 @@ namespace GIS_FIre
         }
 
         private void 影响范围ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void 可燃性分析ToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
 
         }
